@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>System Error</title>
+<style>
+  html, body {
+    margin:0; padding:0;
+    background:#000;
+    color:#f33;
+    font-family: monospace;
+    height:100%;
+    overflow:hidden;
+  }
+  #screen {
+    position:relative;
+    padding:10px;
+    font-size:14px;
+    height:100%;
+    overflow-y:auto;
+    z-index:10;
+  }
+  .notif {
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#111;
+    color:#0f0;
+    padding:6px 10px;
+    border:1px solid #0f0;
+    font-size:12px;
+    z-index:2000;
+    border-radius:4px;
+    box-shadow:0 0 8px #0f0;
+    animation: fadein 0.2s;
+  }
+  @keyframes fadein {
+    from {opacity:0; transform:translateY(-10px);}
+    to {opacity:1; transform:translateY(0);}
+  }
+  .spam-img {
+    position:absolute;
+    width:60px; height:60px;
+    animation: fall 3s linear forwards;
+    z-index:1;
+  }
+  @keyframes fall {
+    from {top:-80px; opacity:1;}
+    to {top:120%; opacity:0;}
+  }
+  #bigLinux {
+    position:fixed;
+    bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:350px;
+    z-index:5;
+    opacity:0.9;
+  }
+</style>
+</head>
+<body>
+<div id="screen"></div>
+
+<img id="bigLinux" src="https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg" alt="Tux">
+
+<audio id="laugh" loop autoplay>
+  <source src="https://www.myinstants.com/media/sounds/trollolol_1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const screen = document.getElementById("screen");
+const notifMessages = [
+  "NOTIF: Kernel crash",
+  "NOTIF: Memory overflow",
+  "NOTIF: Unauthorized packet",
+  "NOTIF: Linux module injected",
+  "NOTIF: System meltdown",
+  "NOTIF: Penguin overload!!!"
+];
+
+function spamError() {
+  const line = document.createElement("div");
+  line.textContent = "[ERROR] " + Math.random().toString(36).substring(2,8) + " process failed";
+  screen.appendChild(line);
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function spawnNotif() {
+  const n = document.createElement('div');
+  n.className = "notif";
+  n.textContent = notifMessages[Math.floor(Math.random()*notifMessages.length)];
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(), 800);
+}
+
+function spawnLinux() {
+  const img = document.createElement('img');
+  img.src = "https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg";
+  img.className = "spam-img";
+  img.style.left = Math.random()*100 + "%";
+  img.style.top = "-80px";
+  img.style.width = (30 + Math.random()*80) + "px";
+  document.body.appendChild(img);
+  setTimeout(()=>img.remove(), 4000);
+}
+
+// spam ekstrem
+setInterval(spamError, 60);   // error teks super cepat
+setInterval(spawnNotif, 200); // notif super spam
+setInterval(spawnLinux, 150); // linux jatuh tanpa henti
+
+// keluar pakai ESC
+window.addEventListener("keydown", e=>{
+  if(e.key==="Escape"){
+    alert("Simulasi selesai — komputer aman 😄");
+    window.close();
+  }
+});
+</script>
+</body>
+</html>
